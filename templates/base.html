@@ -5,95 +5,24 @@
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <title>{% block title %}Alquiler de Películas{% endblock %}</title>
         <style>
-            body {
-                font-family: Arial, Helvetica, sans-serif;
-                margin: 0;
-                background: #f7f7f7;
-                color: #222;
-            }
-            header {
-                background: #111827;
-                color: #fff;
-                padding: 14px 18px;
-            }
-            nav a {
-                color: #e5e7eb;
-                text-decoration: none;
-                margin-right: 14px;
-            }
-            nav a:hover {
-                text-decoration: underline;
-            }
-            .container {
-                padding: 18px;
-                max-width: 980px;
-                margin: 0 auto;
-            }
-            .card {
-                background: #fff;
-                border: 1px solid #e5e7eb;
-                border-radius: 8px;
-                padding: 14px;
-                margin-bottom: 14px;
-            }
-            table {
-                width: 100%;
-                border-collapse: collapse;
-            }
-            th,
-            td {
-                padding: 10px;
-                border-bottom: 1px solid #e5e7eb;
-                text-align: left;
-                vertical-align: top;
-            }
-            .row {
-                display: flex;
-                gap: 12px;
-                flex-wrap: wrap;
-            }
-            .row .card {
-                flex: 1 1 220px;
-                margin-bottom: 0;
-            }
-            .actions a,
-            .actions button {
-                margin-right: 8px;
-            }
-            .btn {
-                display: inline-block;
-                background: #2563eb;
-                color: #fff;
-                padding: 8px 12px;
-                border-radius: 6px;
+            /* ... (Mantenemos todo tu CSS igual) ... */
+            body { font-family: Arial, Helvetica, sans-serif; margin: 0; background: #f7f7f7; color: #222; }
+            header { background: #111827; color: #fff; padding: 14px 18px; }
+            nav a { color: #e5e7eb; text-decoration: none; margin-right: 14px; }
+            nav a:hover { text-decoration: underline; }
+            .container { padding: 18px; max-width: 980px; margin: 0 auto; }
+            /* Estilo extra para el botón de salir que ahora es un form */
+            .btn-logout {
+                background: none;
                 border: none;
-                text-decoration: none;
+                color: #f87171;
                 cursor: pointer;
-                font-size: 14px;
+                font-size: 12px;
+                margin-left: 10px;
+                padding: 0;
+                font-family: inherit;
             }
-            .btn.secondary {
-                background: #4b5563;
-            }
-            .btn.danger {
-                background: #dc2626;
-            }
-            input[type="date"],
-            input[type="number"],
-            input[type="text"],
-            input[type="email"],
-            select,
-            textarea {
-                padding: 8px;
-                width: 100%;
-                box-sizing: border-box;
-            }
-            label {
-                font-weight: bold;
-            }
-            .help {
-                color: #6b7280;
-                font-size: 13px;
-            }
+            .btn-logout:hover { text-decoration: underline; }
         </style>
     </head>
     <body>
@@ -105,11 +34,27 @@
                 </div>
                 <nav>
                     <a href="{% url 'index' %}">Inicio</a>
-                    <a href="{% url 'categoria_list' %}">Categorías</a>
                     <a href="{% url 'pelicula_list' %}">Películas</a>
-                    <a href="{% url 'cliente_list' %}">Clientes</a>
                     <a href="{% url 'alquiler_list' %}">Alquileres</a>
-                    <a href="{% url 'ventas_list' %}">Ventas</a>
+
+                    {% if user.is_staff %}    
+                        <a href="{% url 'categoria_list' %}">Categorías</a>
+                        <a href="{% url 'cliente_list' %}">Clientes</a>
+                        <a href="{% url 'ventas_list' %}" style="color: #fbbf24;">Ventas</a>
+                    {% endif %}
+
+                    {% if user.is_authenticated %}
+                        <span style="color: #9ca3af; margin-left: 10px;">| {{ user.username }}</span>
+                        
+                        {# Tarea 6.1 - Ajuste de Logout para Django 5.x #}
+                        {# Se cambia <a> por <form> porque logout ahora requiere POST #}
+                        <form action="{% url 'logout' %}" method="post" style="display: inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="btn-logout">Salir</button>
+                        </form>
+                    {% else %}
+                        <a href="{% url 'login' %}" style="color: #60a5fa;">Entrar</a>
+                    {% endif %}
                 </nav>
             </div>
         </header>
@@ -119,3 +64,6 @@
     </body>
 </html>
 
+{# Tarea 7 - ejercicio 62 de las 100 tareas #}
+{# se añadieron etiquetas {% if %} y se cambio el boton "salir" por un "<form>" POST #}
+{# Que hara: oculta botones sensibles (como ventas) si el usuario no es supervisor y protege el cierre de sesion segun las reglas de Django 5 #}

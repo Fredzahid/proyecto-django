@@ -109,7 +109,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'es-es'
 
-TIME_ZONE = 'Europe/Madrid'
+TIME_ZONE = 'America/Lima'
 
 USE_I18N = True
 
@@ -122,3 +122,9 @@ USE_TZ = True
 STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+#Tarea 7 - ejercicio 62 de las 100 tareas
+#se agregaron "LOGIN_REDIRECT_URL" y "LOGOUT_REDIRECT_URL" 
+#Que hace: hace que, al entrar, el sistema te mande directo al inicio y no a una pagina de error o al perfil vacio de Django 
+LOGIN_REDIRECT_URL = 'index'
+LOGOUT_REDIRECT_URL = 'index'
+

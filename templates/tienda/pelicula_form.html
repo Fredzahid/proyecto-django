@@ -10,10 +10,23 @@
 
         <form method="post">
             {% csrf_token %}
+            
+            <input type="hidden" name="next" value="{{ request.GET.next }}">
+
             {{ form.as_p }}
+
             <button class="btn" type="submit">Guardar</button>
-            <a class="btn secondary" href="{% url 'pelicula_list' %}" style="margin-left: 8px">Cancelar</a>
+
+            <a class="btn secondary" 
+               href="{{ request.GET.next|default:view.success_url }}" 
+               style="margin-left: 8px">
+               Cancelar
+            </a>
         </form>
     </div>
 {% endblock %}
 
+{#Tarea 4 - ejercicio 47 de las 100 tareas#}
+{#Lo que se cambia: se añade un campo oculto (hidden) dentro del <form> y se modifca el boton "volver"#}
+{#Que hara: Mantiene viva la direccion de retorno mientras el usuario llena el formulario, 
+Si el usuario hace clic en "volver", usara esa direccion en lugar de una fija#}

@@ -28,7 +28,10 @@
                             <td>{{ pelicula.anio }}</td>
                             <td>{{ pelicula.precio_alquiler|soles }}</td>
                             <td class="actions">
-                                <a class="btn secondary" href="{% url 'pelicula_update' pelicula.pk %}">Editar</a>
+                                {#Tarea 4 - ejercicio 47 de las 100 tareas#}
+                                {#Lo que se cambio: Se añade ?next={{ request.get_full_path }}#}
+                                {#Que hara: captura la URL actual (incluyendo filtros como ?pagado=1) y la envia como una "maleta" de informacion a la siguiente pagina#}
+                                <a href="{% url 'pelicula_update' pelicula.pk %}?next={{ request.get_full_path }}" class="btn">Editar</a>
                                 <a class="btn danger" href="{% url 'pelicula_delete' pelicula.pk %}">Borrar</a>
                             </td>
                         </tr>

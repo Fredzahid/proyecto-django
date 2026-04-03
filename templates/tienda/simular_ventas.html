@@ -6,7 +6,7 @@
     <div class="card">
         <h2 style="margin-top: 0">Simular ventas</h2>
         <p class="help" style="margin-top: 0">
-            Esta simulación crea alquileres y los marca como pagados. Es ideal para practicar consultas y estadísticas.
+            Esta simulación crea alquileres y los marca como pagados.
         </p>
 
         {% if error %}
@@ -17,10 +17,20 @@
 
         <form method="post">
             {% csrf_token %}
+            {% if form.non_field_errors %}
+                <div style="background: #fff1f0; border: 1px solid #ffa39e; padding: 10px; color: #cf1322; border-radius: 4px; margin-bottom: 15px">
+                    {{ form.non_field_errors }}
+                </div>
+            {% endif %}
+
             {{ form.as_p }}
+
             <button class="btn" type="submit">Generar ventas</button>
             <a class="btn secondary" href="{% url 'ventas_list' %}" style="margin-left: 8px">Volver</a>
         </form>
     </div>
 {% endblock %}
 
+{#Tarea 3 - ejercicio 37 de las 100 tareas#}
+{#Lo que se cambia: se añade el bloque "{{ form.non_field_errors }}" justo antes de renderizar los campos#}
+{#Que hara: Si el usuario pone una fecha "Desde" mayor a "Hasta", aparecera el mensaje de error en la parte superior del formulario para que el usuario sepa que corregir#}

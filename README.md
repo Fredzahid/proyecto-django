@@ -462,3 +462,20 @@ Rúbrica simple (10 puntos):
 ## 15. Licencia y uso educativo
 
 Proyecto pensado para **uso educativo**. Si se publica, conviene aclarar versión de Python/Django y si `db.sqlite3` se ignora en Git (lo habitual).
+
+
+
+
+---
+
+## Información de Entrega Final (Validación de Reto)
+
+**IMPORTANTE:** Este proyecto ha sido validado mediante el sistema de retos personalizados.
+
+- **Alumno:** Fred Fachin
+- **Código de Alumno:** 1584492
+- **Token Único de Entrega:** `1B4C6680B305`
+- **Rama de Entrega:** `alumno/fred-fachin-1b4c`
+- **Parámetros Aplicados:** - Stock mínimo: 3
+    - Límite de alquileres pendientes: 3
+    - Días de retraso: 4

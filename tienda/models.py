@@ -1,8 +1,9 @@
 from decimal import Decimal
 
-from django.core.validators import MinValueValidator
+from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 from django.utils import timezone
+import datetime
 
 
 class Categoria(models.Model):
@@ -27,12 +28,18 @@ class Cliente(models.Model):
     def __str__(self) -> str:
         return self.nombre
 
-
+#Tarea 8 - ejercicio 80 de las 100 tareas
+#Lo que se cambio: Se añadio el campo "stock = models.PositiveIntegerField(default=5)" al modelo "Pelicula"
+#Lo que hara: Permite que el sistema sepa cuantas copias fisicas hay disponibles en la tienda de iquitos. Sin esto, no se podria controlar si una pelicula se agota
 class Pelicula(models.Model):
     titulo = models.CharField(max_length=200)
-    anio = models.PositiveIntegerField(validators=[MinValueValidator(1900)], verbose_name="Año")
+    #Tarea 10 - ejercicio 90 de las 100 tareas
+    #Lo que se hizo: se añadieron "validators" al campo "anio"
+    #Que hara: actua como un "filtro" de seguridad. Si alguien intenta guardar el año 3000, el modelo lanzara una excepcion y dentendra el proceso
+    anio = models.PositiveIntegerField(validators=[MinValueValidator(1900), MaxValueValidator(datetime.date.today().year + 1)], verbose_name="Año")
     categoria = models.ForeignKey(Categoria, on_delete=models.PROTECT, related_name="peliculas")
-    precio_alquiler = models.DecimalField(max_digits=8, decimal_places=2, validators=[MinValueValidator(Decimal("0"))])
+    precio_alquiler = models.DecimalField(max_digits=8, decimal_places=2, validators=[MinValueValidator(Decimal("0.01"))])
+    stock = models.PositiveIntegerField(default=3)
 
     class Meta:
         ordering = ["titulo", "anio"]
@@ -72,6 +79,13 @@ class Alquiler(models.Model):
         self.save(update_fields=["pagado", "fecha_devolucion"])
 
     def save(self, *args, **kwargs):
+        if not self.pk:  
+            from django.core.exceptions import ValidationError
+            pendientes = Alquiler.objects.filter(cliente=self.cliente, pagado=False).count()
+            
+            if pendientes >= 3:
+                raise ValidationError(f"El cliente {self.cliente} ya alcanzó el límite de 3 alquileres pendientes.")
         if self.precio is None:
             self.precio = self.pelicula.precio_alquiler
+            
         super().save(*args, **kwargs)

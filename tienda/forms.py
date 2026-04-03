@@ -18,11 +18,28 @@ class ClienteForm(forms.ModelForm):
         model = Cliente
         fields = ["nombre", "email", "telefono"]
 
-
+#tarea 2 - ejercicio 21 de las 100 tareas
+#lo que se cambia: Se añadio el metodo "clean_anio" dentro de la clase "PeliculaForm".
+#Que hara: Obtendra el año actual del sistema y comparara el valor ingresado; si es mayor, dentendra el guardado y lanzara un mensaje de error.
 class PeliculaForm(forms.ModelForm):
     class Meta:
         model = Pelicula
         fields = ["titulo", "anio", "categoria", "precio_alquiler"]
+
+    #SE AGREGA...
+    def clean_anio(self):
+        #1. Recuperamosv el valor que el usuario escribio en el formulario
+        anio_ingresado = self.cleaned_data.get("anio")
+        #2. Obtenemos el año actual
+        anio_actual = datetime.date.today().year
+        #3. Logica de validacion 
+        if anio_ingresado and anio_ingresado > anio_actual:
+            #si el año es mayor al actual, se lanza error
+            raise forms.ValidationError(
+                f"El año no puede ser mayor al actual ({anio_actual})."
+            )
+        #4. Siempre se debe retornar el valor limpio
+        return anio_ingresado
 
 
 class AlquilerCreateForm(forms.ModelForm):
