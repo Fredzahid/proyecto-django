@@ -24,6 +24,3 @@ Si el error afecta el esquema de la base de datos:
 Tras cualquier rollback, es **obligatorio** verificar:
 * **Integridad de Datos:** `python manage.py check` (Tarea 11)
 * **Regresión de Bugs:** `python manage.py test tienda` (Tarea 10)
-
----
-*Documentado para garantizar la continuidad operativa en Iquitos.*
