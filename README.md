@@ -470,7 +470,7 @@ Proyecto pensado para **uso educativo**. Si se publica, conviene aclarar versió
 
 ## Información de Entrega Final (Validación de Reto)
 
-**IMPORTANTE:** Este proyecto ha sido validado mediante el sistema de retos personalizados.
+**IMPORTANTE:** Este proyecto ha sido validado mediante el sistema de retos personalizados
 
 - **Alumno:** Fred Fachin
 - **Código de Alumno:** 1584492
